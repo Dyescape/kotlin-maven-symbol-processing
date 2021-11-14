@@ -11,7 +11,7 @@ To use this extension, add the dependency to the `kotlin-maven-plugin`:
 <dependency>
     <groupId>com.dyescape</groupId>
     <artifactId>kotlin-maven-symbol-processing</artifactId>
-    <version>1.5.31-1.0.1-1.0</version>
+    <version>1.0</version>
 </dependency>
 ```
 
