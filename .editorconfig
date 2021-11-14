@@ -9,6 +9,9 @@ max_line_length = 120
 ij_continuation_indent_size = 8
 trim_trailing_whitespace = true
 
+[*.{yml,yaml}]
+indent_size = 2
+
 [*.xml]
 # -- Tabs and indents --
 ij_xml_keep_indents_on_empty_lines = false
