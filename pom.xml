@@ -6,7 +6,7 @@
 
     <groupId>com.dyescape</groupId>
     <artifactId>kotlin-maven-symbol-processing</artifactId>
-    <version>1.5.31-1.0.1-1.0-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <description>Kotlin Symbol Processing for maven</description>
 
@@ -15,27 +15,21 @@
         <url>https://dyescape.com</url>
     </organization>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <versions.kotlin>1.5.31</versions.kotlin>
-        <versions.ksp>1.0.1</versions.ksp>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${versions.kotlin}</version>
+            <version>1.5.31</version>
         </dependency>
         <dependency>
             <groupId>com.google.devtools.ksp</groupId>
             <artifactId>symbol-processing</artifactId>
-            <version>${versions.kotlin}-${versions.ksp}</version>
+            <version>1.5.31-1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-plugin</artifactId>
-            <version>${versions.kotlin}</version>
+            <version>1.5.31</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -47,7 +41,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${versions.kotlin}</version>
+                <version>1.5.31</version>
 
                 <executions>
                     <execution>
@@ -110,6 +104,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Dyescape Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Dyescape/kotlin-maven-symbol-processing</url>
+        </repository>
+    </distributionManagement>
 
     <licenses>
         <license>
