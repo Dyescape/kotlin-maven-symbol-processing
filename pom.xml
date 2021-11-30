@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-plugin</artifactId>
-            <version>1.5.31</version>
+            <version>1.6.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -45,7 +45,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.5.31</version>
+                <version>1.6.0</version>
 
                 <executions>
                     <execution>
