@@ -117,6 +117,19 @@
         </repository>
     </distributionManagement>
 
+    <profiles>
+        <profile>
+            <id>internal</id>
+            <distributionManagement>
+                <repository>
+                    <id>dyescape-libraries</id>
+                    <name>Internal Dyescape Libraries</name>
+                    <url>https://maven.pkg.jetbrains.space/dyescape/p/lib/libraries</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
     <licenses>
         <license>
             <name>MIT License</name>
