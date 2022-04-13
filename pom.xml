@@ -15,6 +15,31 @@
         <url>https://dyescape.com</url>
     </organization>
 
+    <developers>
+        <developer>
+            <id>MrDienns</id>
+            <name>Dennis van der Veeke</name>
+            <email>mrdienns@dyescape.com</email>
+            <organization>Dyescape</organization>
+            <organizationUrl>https://dyescape.com</organizationUrl>
+            <roles>
+                <role>manager</role>
+                <role>lead developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>fxshlein</id>
+            <name>fxshlein</name>
+            <url>https://fxshlein.net</url>
+            <email>fxshlein@fxshlein.net</email>
+            <organization>Dyescape</organization>
+            <organizationUrl>https://dyescape.com</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
