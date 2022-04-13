@@ -66,4 +66,22 @@ the `kotlin-maven-plugin`.
 </plugin>
 ```
 
+### Passing options to the compiler plugin
+
+It is also possible to pass options to KSP by specifying them under `pluginOptions`:
+
+```xml
+<pluginOptions>
+    <option>ksp:kotlinOutputDir=/my/output/dir</option>
+</pluginOptions>
+```
+
+Options can also be passed to the actual annotation processors using the repeatable `apoption` option:
+
+```xml
+<pluginOptions>
+    <option>ksp:apoption=key=value</option>
+</pluginOptions>
+```
+
 [ksp]: https://goo.gle/ksp
