@@ -14,6 +14,9 @@ import java.io.File
 
 const val KSP_PLUGIN_ID = "com.google.devtools.ksp.symbol-processing"
 
+/**
+ * Extension that enables KSP for the kotlin maven plugin
+ */
 @Component(role = KotlinMavenPluginExtension::class, hint = "ksp")
 class KotlinSymbolProcessingMavenPluginExtension : KotlinMavenPluginExtension {
     @Requirement

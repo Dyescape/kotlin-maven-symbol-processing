@@ -32,7 +32,7 @@ jobs:
       - name: Remove -SNAPSHOT
         run: mvn versions:set --batch-mode -DremoveSnapshot
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: mvn --batch-mode -P github deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 17
@@ -64,7 +64,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: mvn --batch-mode -P github deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 17
