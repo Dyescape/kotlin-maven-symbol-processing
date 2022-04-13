@@ -228,4 +228,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <scm>
+        <url>https://github.com/Dyescape/kotlin-maven-symbol-processing</url>
+        <developerConnection>scm:git:ssh://git@github.com:Dyescape/kotlin-maven-symbol-processing.git</developerConnection>
+    </scm>
 </project>
