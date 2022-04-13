@@ -11,7 +11,7 @@ To use this extension, add the dependency to the `kotlin-maven-plugin`:
 <dependency>
     <groupId>com.dyescape</groupId>
     <artifactId>kotlin-maven-symbol-processing</artifactId>
-    <version>1.0</version>
+    <version>1.2</version>
 </dependency>
 ```
 
@@ -28,6 +28,8 @@ Then configure the `kotlin-maven-plugin` to use the `ksp` compiler plugin:
 
 To now add a symbol processor, simply add the module containing the symbol processor provider to the `dependencies` of
 the `kotlin-maven-plugin`.
+
+> The releases for this project are published to the central maven repository.
 
 ### Example `kotlin-maven-plugin` configuration
 
@@ -71,6 +73,7 @@ the `kotlin-maven-plugin`.
 It is also possible to pass options to KSP by specifying them under `pluginOptions`:
 
 ```xml
+
 <pluginOptions>
     <option>ksp:kotlinOutputDir=/my/output/dir</option>
 </pluginOptions>
@@ -79,6 +82,7 @@ It is also possible to pass options to KSP by specifying them under `pluginOptio
 Options can also be passed to the actual annotation processors using the repeatable `apoption` option:
 
 ```xml
+
 <pluginOptions>
     <option>ksp:apoption=key=value</option>
 </pluginOptions>
