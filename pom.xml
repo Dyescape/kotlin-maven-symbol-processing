@@ -6,7 +6,7 @@
 
     <groupId>com.dyescape</groupId>
     <artifactId>kotlin-maven-symbol-processing</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
 
     <name>Kotlin Maven Symbol Processing</name>
     <description>Kotlin Symbol Processing extension for the kotlin maven plugin</description>
@@ -54,8 +54,14 @@
         </dependency>
         <dependency>
             <groupId>com.google.devtools.ksp</groupId>
-            <artifactId>symbol-processing</artifactId>
+            <artifactId>symbol-processing-cmdline</artifactId>
             <version>1.6.20-1.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-compiler</artifactId>
+            <version>1.6.20</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -111,7 +117,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.google.devtools.ksp:symbol-processing</include>
+                                    <include>com.google.devtools.ksp:symbol-processing-cmdline</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -241,6 +247,7 @@
 
     <scm>
         <url>https://github.com/Dyescape/kotlin-maven-symbol-processing</url>
-        <developerConnection>scm:git:ssh://git@github.com:Dyescape/kotlin-maven-symbol-processing.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com:Dyescape/kotlin-maven-symbol-processing.git
+        </developerConnection>
     </scm>
 </project>
