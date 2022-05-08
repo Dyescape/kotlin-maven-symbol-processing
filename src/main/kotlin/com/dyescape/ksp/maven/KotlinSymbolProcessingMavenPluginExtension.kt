@@ -5,6 +5,7 @@ import com.google.devtools.ksp.KspCliOption.*
 import org.apache.maven.artifact.Artifact
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest
 import org.apache.maven.plugin.MojoExecution
+import org.apache.maven.plugins.annotations.ResolutionScope
 import org.apache.maven.project.MavenProject
 import org.apache.maven.repository.RepositorySystem
 import org.codehaus.plexus.component.annotations.Component
@@ -31,19 +32,11 @@ class KotlinSymbolProcessingMavenPluginExtension : KotlinMavenPluginExtension {
     override fun getCompilerPluginId() = KSP_PLUGIN_ID
 
     override fun getPluginOptions(project: MavenProject, execution: MojoExecution): List<PluginOption> {
+        val scopes = execution.findScopes()
+        val test = Artifact.SCOPE_TEST in scopes
+
         val userOptions = execution.findKspOptions()
-
-        val defaultOptions = mutableMapOf<KspCliOption, String>()
-
-        defaultOptions[CLASS_OUTPUT_DIR_OPTION] = project.build.outputDirectory
-        defaultOptions[JAVA_OUTPUT_DIR_OPTION] = project.generatedSourcesDir("ksp-java").path
-        defaultOptions[KOTLIN_OUTPUT_DIR_OPTION] = project.generatedSourcesDir("ksp").path
-        defaultOptions[RESOURCE_OUTPUT_DIR_OPTION] = project.build.outputDirectory
-        defaultOptions[PROJECT_BASE_DIR_OPTION] = project.basedir.path
-        defaultOptions[KSP_OUTPUT_DIR_OPTION] = project.buildDir("ksp").path
-        defaultOptions[PROCESSOR_CLASSPATH_OPTION] = execution.constructProcessorClassPath()
-        defaultOptions[CACHES_DIR_OPTION] = system.cacheDir("ksp").path
-        defaultOptions[WITH_COMPILATION_OPTION] = "true"
+        val defaultOptions = buildDefaultOptions(project, execution, scopes, test)
 
         val options = buildMap {
             for ((option, defaultValue) in defaultOptions) {
@@ -59,14 +52,48 @@ class KotlinSymbolProcessingMavenPluginExtension : KotlinMavenPluginExtension {
         for (outputDirOption in outputDirOptions) {
             val dir = options[outputDirOption] ?: userOptions[outputDirOption]?.singleOrNull()
 
-            project.addCompileSourceRoot(dir)
+            if (test) {
+                project.addTestCompileSourceRoot(dir)
+            } else {
+                project.addCompileSourceRoot(dir)
+            }
         }
 
         return options.map { (option, value) -> PluginOption("ksp", KSP_PLUGIN_ID, option.optionName, value) }
     }
 
-    private fun MojoExecution.constructProcessorClassPath(): String {
-        val classPath = plugin.dependencies.flatMap {
+    private fun buildDefaultOptions(
+        project: MavenProject,
+        execution: MojoExecution,
+        scopes: Set<String>,
+        test: Boolean
+    ): MutableMap<KspCliOption, String> {
+        val defaultOptions = mutableMapOf<KspCliOption, String>()
+
+        if (!test) {
+            defaultOptions[CLASS_OUTPUT_DIR_OPTION] = project.build.outputDirectory
+            defaultOptions[JAVA_OUTPUT_DIR_OPTION] = project.generatedSourcesDir("ksp-java").path
+            defaultOptions[KOTLIN_OUTPUT_DIR_OPTION] = project.generatedSourcesDir("ksp").path
+            defaultOptions[RESOURCE_OUTPUT_DIR_OPTION] = project.build.outputDirectory
+            defaultOptions[KSP_OUTPUT_DIR_OPTION] = project.buildDir("ksp").path
+        } else {
+            defaultOptions[CLASS_OUTPUT_DIR_OPTION] = project.build.testOutputDirectory
+            defaultOptions[JAVA_OUTPUT_DIR_OPTION] = project.generatedTestSourcesDir("ksp-java").path
+            defaultOptions[KOTLIN_OUTPUT_DIR_OPTION] = project.generatedTestSourcesDir("ksp").path
+            defaultOptions[RESOURCE_OUTPUT_DIR_OPTION] = project.build.testOutputDirectory
+            defaultOptions[KSP_OUTPUT_DIR_OPTION] = project.buildDir("ksp-test").path
+        }
+
+        defaultOptions[PROJECT_BASE_DIR_OPTION] = project.basedir.path
+        defaultOptions[PROCESSOR_CLASSPATH_OPTION] = execution.constructProcessorClassPath(scopes)
+        defaultOptions[CACHES_DIR_OPTION] = system.cacheDir("ksp").path
+        defaultOptions[WITH_COMPILATION_OPTION] = "true"
+
+        return defaultOptions
+    }
+
+    private fun MojoExecution.constructProcessorClassPath(scopes: Set<String>): String {
+        val classPath = plugin.dependencies.filter { it.scope in scopes }.flatMap {
             val artifact = system.createDependencyArtifact(it)
             val resolved = system.resolve(ArtifactResolutionRequest().setArtifact(artifact))
 
@@ -84,7 +111,42 @@ class KotlinSymbolProcessingMavenPluginExtension : KotlinMavenPluginExtension {
         return File(buildDir("generated-sources"), name)
     }
 
+    private fun MavenProject.generatedTestSourcesDir(name: String): File {
+        return File(buildDir("generated-test-sources"), name)
+    }
+
     private fun RepositorySystem.cacheDir(name: String): File {
         return File(createDefaultLocalRepository().basedir, ".cache").resolve(name)
+    }
+
+    private fun MojoExecution.findScopes() = when (mojoDescriptor.dependencyResolutionRequired) {
+        ResolutionScope.COMPILE.id()              -> setOf(
+            Artifact.SCOPE_COMPILE,
+            Artifact.SCOPE_SYSTEM,
+            Artifact.SCOPE_PROVIDED,
+        )
+        ResolutionScope.RUNTIME.id()              -> setOf(
+            Artifact.SCOPE_COMPILE,
+            Artifact.SCOPE_RUNTIME,
+        )
+        ResolutionScope.COMPILE_PLUS_RUNTIME.id() -> setOf(
+            Artifact.SCOPE_COMPILE,
+            Artifact.SCOPE_SYSTEM,
+            Artifact.SCOPE_PROVIDED,
+            Artifact.SCOPE_RUNTIME,
+        )
+        ResolutionScope.RUNTIME_PLUS_SYSTEM.id()  -> setOf(
+            Artifact.SCOPE_COMPILE,
+            Artifact.SCOPE_SYSTEM,
+            Artifact.SCOPE_RUNTIME,
+        )
+        ResolutionScope.TEST.id()                 -> setOf(
+            Artifact.SCOPE_COMPILE,
+            Artifact.SCOPE_SYSTEM,
+            Artifact.SCOPE_PROVIDED,
+            Artifact.SCOPE_RUNTIME,
+            Artifact.SCOPE_TEST,
+        )
+        else                                      -> emptySet()
     }
 }
