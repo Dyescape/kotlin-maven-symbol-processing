@@ -11,9 +11,11 @@ To use this extension, add the dependency to the `kotlin-maven-plugin`:
 <dependency>
     <groupId>com.dyescape</groupId>
     <artifactId>kotlin-maven-symbol-processing</artifactId>
-    <version>1.2</version>
+    <version>${ksp.version}</version>
 </dependency>
 ```
+
+> You can find the latest version [here][maven-search].
 
 Then configure the `kotlin-maven-plugin` to use the `ksp` compiler plugin:
 
@@ -89,3 +91,4 @@ Options can also be passed to the actual annotation processors using the repeata
 ```
 
 [ksp]: https://goo.gle/ksp
+[maven-search]: https://search.maven.org/artifact/com.dyescape/kotlin-maven-symbol-processing
