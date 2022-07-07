@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-compiler</artifactId>
-            <version>1.6.21</version>
+            <version>1.7.10</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
