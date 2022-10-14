@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.google.devtools.ksp</groupId>
             <artifactId>symbol-processing-cmdline</artifactId>
-            <version>1.6.21-1.0.5</version>
+            <version>1.7.20-1.0.7</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
