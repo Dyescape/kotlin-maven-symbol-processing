@@ -91,4 +91,4 @@ Options can also be passed to the actual annotation processors using the repeata
 ```
 
 [ksp]: https://goo.gle/ksp
-[maven-search]: https://search.maven.org/artifact/com.dyescape/kotlin-maven-symbol-processing
+[maven-search]: https://central.sonatype.com/search?q=kotlin-maven-symbol-processing&namespace=com.dyescape
